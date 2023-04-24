@@ -98,7 +98,7 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
 
     for batch in range(args.meta_batch_size):
         ttask = train_tasks.sample()
-        model = learner.clone()
+        model = learner.clone(first_order=True)
 
         evaluation_loss, evaluation_accuracy = inner_adapt_trident(
             ttask, reconst_loss, model, args.n_ways, args.k_shots, args.q_shots, args.inner_adapt_steps_train, args.device, False, args, "No")
@@ -111,7 +111,7 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
         batch_losses.append(tmp)
 
     vtask = valid_tasks.sample()
-    model = learner.clone()
+    model = learner.clone(first_order=True)
 
     validation_loss, validation_accuracy = inner_adapt_trident(
         vtask, reconst_loss, model, args.n_ways, args.k_shots, args.q_shots, args.inner_adapt_steps_train, args.device, False, args, "No")
