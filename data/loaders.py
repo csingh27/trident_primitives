@@ -6,6 +6,7 @@ import tarfile
 import shutil
 import zipfile
 import requests
+from data.primitives import *
 from PIL import Image
 from collections import defaultdict
 
@@ -18,6 +19,9 @@ from torchvision.datasets.folder import default_loader
 from learn2learn.data.utils import (download_file,
                                     download_file_from_google_drive)
 from torch.utils.data import ConcatDataset, Dataset
+
+import sys
+np.set_printoptions(threshold=sys.maxsize)
 
 
 class Omniglotmix(Dataset):
@@ -73,12 +77,58 @@ def index_classes(items):
             idx[i] = len(idx)
     return idx
 
+class Primitives(Dataset):
+    """
+    Consists of 900 examples of 640x480 pixels.
+    The dataset is divided in 2 splits of 540 training and 360 test examples.
+    There are 50 concepts or classes in total
+    **Arguments**
+    * **root** (str) - Path to download the data.
+    * **mode** (str, *optional*, default='train') - Which split to use.
+        Must be 'train', 'validation', or 'test'.
+    * **transform** (Transform, *optional*, default=None) - Input pre-processing.
+    * **target_transform** (Transform, *optional*, default=None) - Target pre-processing.
+    """
+    def __init__(self,
+                 root,
+                 mode,
+                 transform=None,
+                 target_transform=None,
+                 download=False):
+        super(Primitives, self).__init__()
+
+        # Initialization
+        self.root = os.path.expanduser(root)
+        self.transform = transform
+        self.target_transform = target_transform
+        self.mode = mode
+
+        # Define dataset paths
+        self.path = "dataset/PRIMITIVES"
+        self.train_path = self.path + "/train"
+        self.test_path = self.path + "/test"
+
+        data_path = self.train_path
+
+        shape = (480, 640)
+
+        concepts = []
+
+        for concept_path in load_paths(data_path):
+            shots = [load_shot(path, shape) for path in load_paths(concept_path)]
+            concepts.append(shots)
+
+
 
 class MiniImageNet(Dataset):
 
     """
     Consists of 60'000 colour images of sizes 84x84 pixels.
     The dataset is divided in 3 splits of 64 training, 16 validation, and 20 testing classes each containing 600 examples.
+    Training set - 38,400
+    Validation set - 9,600
+    Test set - 12,000
+
     **Arguments**
     * **root** (str) - Path to download the data.
     * **mode** (str, *optional*, default='train') - Which split to use.

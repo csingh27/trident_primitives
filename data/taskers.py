@@ -1,7 +1,6 @@
 import learn2learn as l2l
 
-from data.loaders import CIFARFS, CUBirds200, MiniImageNet, Omniglotmix, TieredImagenet
-
+from data.loaders import CIFARFS, CUBirds200, MiniImageNet, Omniglotmix, TieredImagenet, Primitives
 
 def gen_tasks(dataname, root, image_transforms=None, target_transforms=None, download=False, **task_transforms):
     """ Generates tasks from the specified Dataset
@@ -43,6 +42,7 @@ def gen_tasks(dataname, root, image_transforms=None, target_transforms=None, dow
     elif (dataname == 'miniimagenet'):
         mini = MiniImageNet(root, mode, transform=image_transforms,
                             target_transform=target_transforms, download=download)
+        print("Mini", mini)
         dataset = l2l.data.MetaDataset(mini)
 
         trans = [
@@ -101,4 +101,21 @@ def gen_tasks(dataname, root, image_transforms=None, target_transforms=None, dow
         ]
         tasks = l2l.data.TaskDataset(dataset, task_transforms=trans, num_tasks=num_tasks)
 
-    return tasks
+    elif (dataname == 'primitives'):
+        cfs = Primitives(root, mode, transform=image_transforms,
+                            target_transform=target_transforms, download=download)
+        """
+        dataset = l2l.data.MetaDataset(cfs)
+
+        trans = [
+            l2l.data.transforms.FusedNWaysKShots(dataset,
+                                                 n=n_ways,
+                                                 k=k_shots + q_shots),
+            l2l.data.transforms.LoadData(dataset),
+            l2l.data.transforms.RemapLabels(dataset),
+            l2l.data.transforms.ConsecutiveLabels(dataset)
+        ]
+        tasks = l2l.data.TaskDataset(dataset, task_transforms=trans, num_tasks=num_tasks)
+        """
+
+    # return tasks
