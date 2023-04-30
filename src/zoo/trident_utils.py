@@ -39,10 +39,8 @@ def setup(dataset, root, n_ways, k_shots, q_shots, order, inner_lr, device, down
         # Generating tasks and model according to the MAML implementation for MiniImageNet
         train_tasks = gen_tasks(dataset, root, download=download, mode='train',
                                 n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
-        valid_tasks = gen_tasks(dataset, root, download=download, mode='validation',
-                                n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
         test_tasks = gen_tasks(dataset, root, download=download, mode='test',
-                               n_ways=n_ways, k_shots=k_shots, q_shots=q_shots, num_tasks=600)
+                               n_ways=n_ways, k_shots=k_shots, q_shots=q_shots, num_tasks=360)
         learner = CCVAE(in_channels=3, base_channels=32,
                         n_ways=n_ways, task_adapt=task_adapt, args=args, latent_dim_l=args.zl, latent_dim_s=args.zs)
 
