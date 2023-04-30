@@ -110,15 +110,40 @@ class Primitives(Dataset):
 
         data_path = self.train_path
 
+        N = 50
+        H = 480
+        W = 640
+        C = 3
+
+        image_data = np.zeros((N, H, W, C))
+
+        self.x = torch.from_numpy(image_data).permute(0, 1, 2, 3).float()
+        self.y = np.ones(len(self.x))
+
         shape = (480, 640)
 
         concepts = []
 
+        # Do not load the last shot in training
+
+        k = 0
         for concept_path in load_paths(data_path):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
-            concepts.append(shots)
+            k = k + 1 
+            for n, shot in enumerate(shots):
+                if n  < 5:
+                    image, _, label = shot
+                    self.x[n] = torch.from_numpy(image)
+                    self.y[n] = k # list(label.keys())[0]
 
+    def __len__(self):
+        return len(self.x)
 
+    def __getitem__(self, idx):
+        data = self.x[idx]
+        if self.transform:
+            data = self.transform(data)
+        return data, self.y[idx]
 
 class MiniImageNet(Dataset):
 
