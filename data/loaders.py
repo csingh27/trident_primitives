@@ -119,7 +119,7 @@ class Primitives(Dataset):
         W = 84 # 640
         C = 3
 
-        image_data = np.zeros((N, H, W, C))
+        image_data = np.zeros((N, C, H, W))
 
         self.x = torch.from_numpy(image_data).permute(0, 1, 2, 3).float()
         self.y = np.ones(len(self.x))
@@ -219,8 +219,10 @@ class MiniImageNet(Dataset):
         # W = Width
         # H = Height
 
-        # data["image_data"] = (N, C, H, W)
-        # X = (N, H, W, C)
+        # data["image_data"] = (N, H, W, C)
+        # X = (N, C, H, W)
+
+        print(self.x.shape)
 
         self.y = np.ones(len(self.x))
 
