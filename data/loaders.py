@@ -108,19 +108,26 @@ class Primitives(Dataset):
         self.train_path = self.path + "/train"
         self.test_path = self.path + "/test"
 
-        data_path = self.train_path
+        if self.mode == "train":
+            data_path = self.train_path
+            N = 30
+        elif self.mode == "test":
+            data_path = self.test_path
+            N = 20
 
-        N = 50
-        H = 480
-        W = 640
+        H = 84 # 480
+        W = 84 # 640
         C = 3
 
         image_data = np.zeros((N, H, W, C))
 
         self.x = torch.from_numpy(image_data).permute(0, 1, 2, 3).float()
         self.y = np.ones(len(self.x))
+        # X = (N, H, W, C)
+        print(self.x.shape)
 
-        shape = (480, 640)
+        shape = (H, W)
+        # shape = (480, 640)
 
         concepts = []
 
@@ -206,6 +213,15 @@ class MiniImageNet(Dataset):
 
         self.x = torch.from_numpy(
             self.data["image_data"]).permute(0, 3, 1, 2).float()
+        
+        # N = No. of items in training/ validation/ test set
+        # C = Channels
+        # W = Width
+        # H = Height
+
+        # data["image_data"] = (N, C, H, W)
+        # X = (N, H, W, C)
+
         self.y = np.ones(len(self.x))
 
         self.class_idx = index_classes(self.data['class_dict'].keys())

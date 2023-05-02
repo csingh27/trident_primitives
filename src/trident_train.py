@@ -97,6 +97,7 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
     batch_losses = []
 
     for batch in range(args.meta_batch_size):
+        print("Requested samples", len(train_tasks.sample()))
         ttask = train_tasks.sample()
         model = learner.clone(first_order=True)
 
