@@ -115,8 +115,8 @@ class Primitives(Dataset):
             data_path = self.test_path
             N = 20
 
-        H = 84 # 480
-        W = 84 # 640
+        H = 84 # 480 
+        W = 84 # 640 
         C = 3
 
         image_data = np.zeros((N, C, H, W))
@@ -124,8 +124,7 @@ class Primitives(Dataset):
         self.x = torch.from_numpy(image_data).permute(0, 1, 2, 3).float()
         self.y = np.ones(len(self.x))
         # X = (N, H, W, C)
-        print(self.x.shape)
-
+        
         shape = (H, W)
         # shape = (480, 640)
 
@@ -140,7 +139,7 @@ class Primitives(Dataset):
             for n, shot in enumerate(shots):
                 if n  < 5:
                     image, _, label = shot
-                    self.x[n] = torch.from_numpy(image)
+                    self.x[n] = torch.from_numpy(image).permute(2, 0, 1).float()
                     self.y[n] = k # list(label.keys())[0]
 
     def __len__(self):

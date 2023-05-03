@@ -104,7 +104,6 @@ def gen_tasks(dataname, root, image_transforms=None, target_transforms=None, dow
         cfs = Primitives(root, mode, transform=image_transforms,
                             target_transform=target_transforms, download=download)
         dataset = l2l.data.MetaDataset(cfs)
-        print("Population size", len(dataset))
 
         trans = [
             l2l.data.transforms.FusedNWaysKShots(dataset,

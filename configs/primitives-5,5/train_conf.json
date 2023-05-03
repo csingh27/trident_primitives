@@ -1,9 +1,9 @@
 {
 "dataset": "primitives",
 "root": "./dataset/primitives",
-"n_ways": 50,
-"k_shots": 5,
-"q_shots":6,
+"n_ways": 1,
+"k_shots": 1,
+"q_shots":1,
 "inner_adapt_steps_train": 5,
 "inner_adapt_steps_test": 5,
 "inner_lr": 0.0014,

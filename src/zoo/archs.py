@@ -410,8 +410,8 @@ class CEncoder(nn.Module):
     """ Convolutional Encoder to transform an input image into its flattened feature embedding. """
 
     def __init__(self,
-                 num_input_channels: int,
-                 base_channel_size: int,
+                 num_input_channels: int, # in_channels = 3
+                 base_channel_size: int, # base_channels = 32
                  args,
                  act_fn: object = nn.LeakyReLU):
         """
@@ -680,8 +680,8 @@ class CVAE(nn.Module):
 
     def __init__(self, in_channels, y_shape, base_channels, latent_dim=64):
         super(CVAE, self).__init__()
-        self.in_channels = in_channels
-        self.base_channels = base_channels
+        self.in_channels = in_channels # Number of input channels
+        self.base_channels = base_channels # Base channel size
         self.latent_dim = latent_dim
         self.dec_latent_dim = self.latent_dim + y_shape
 
@@ -767,16 +767,16 @@ class CCVAE(nn.Module):
 
     def __init__(self, in_channels, base_channels, n_ways, task_adapt, args, latent_dim_l, latent_dim_s):
         super(CCVAE, self).__init__()
-        self.in_channels = in_channels
-        self.base_channels = base_channels
-        self.latent_dim_l = latent_dim_l
-        self.latent_dim_s = latent_dim_s
+        self.in_channels = in_channels # 3
+        self.base_channels = base_channels # 32
+        self.latent_dim_l = latent_dim_l # 64
+        self.latent_dim_s = latent_dim_s # 64
         self.classes = n_ways
         self.task_adapt = task_adapt
         self.args = args
 
         fcoeff = 25
-        fsize = fcoeff*self.base_channels
+        fsize = fcoeff*self.base_channels # 25 * 32 = 800
 
         self.encoder = CEncoder(num_input_channels=self.in_channels,
                                 base_channel_size=self.base_channels, args=args)
@@ -806,7 +806,10 @@ class CCVAE(nn.Module):
             xs = x[self.args.n_ways*self.args.k_shots:]
         else:
             xs = x
+        # xs shape: [1, 3, 480, 640]
         xs = self.encoder(xs)
+        # xs shape: [1, 38400] 
+        # xs shape should be [N, fsize] where N is no. of classes
         mu_s, log_var_s = self.gaussian_parametrizer(xs)
         z_s = self.reparameterize(mu_s, log_var_s)
         del xs
