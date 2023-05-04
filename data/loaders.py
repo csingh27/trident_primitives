@@ -133,6 +133,7 @@ class Primitives(Dataset):
         # Do not load the last shot in training
 
         k = 0
+        print(data_path)
         for concept_path in load_paths(data_path):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
             k = k + 1 
@@ -141,6 +142,13 @@ class Primitives(Dataset):
                     image, _, label = shot
                     self.x[n] = torch.from_numpy(image).permute(2, 0, 1).float()
                     self.y[n] = k # list(label.keys())[0]
+                    """
+                    print(image.shape)
+                    print(image)
+                    print("Displaying image ...")
+                    pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                    pil_image.show()
+                    """
 
     def __len__(self):
         return len(self.x)

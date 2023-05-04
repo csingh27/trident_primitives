@@ -93,6 +93,7 @@ elif args.order == True:
 
 for model_name in os.listdir(args.model_path):
     #learner = torch.load('{}/{}'.format(args.model_path, model_name))
+    print("Model: ", args.model_path, model_name)
     learner.load_state_dict(torch.load('{}/{}'.format(args.model_path, model_name), map_location=args.device))
     learner = learner.to(args.device)
     print('Testing on held out classes')
