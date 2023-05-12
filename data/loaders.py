@@ -79,8 +79,8 @@ def index_classes(items):
 
 class Primitives(Dataset):
     """
-    Consists of 900 examples of 640x480 pixels.
-    The dataset is divided in 2 splits of 540 training and 360 test examples.
+    Consists of 250 examples of 640x480 pixels.
+    The dataset is divided in 2 splits of 150 training and 100 test examples.
     There are 50 concepts or classes in total
     **Arguments**
     * **root** (str) - Path to download the data.
@@ -110,10 +110,10 @@ class Primitives(Dataset):
 
         if self.mode == "train":
             data_path = self.train_path
-            N = 30
+            N = 150
         elif self.mode == "test":
             data_path = self.test_path
-            N = 20
+            N = 100
 
         H = 84 # 480 
         W = 84 # 640 
@@ -136,19 +136,18 @@ class Primitives(Dataset):
         print(data_path)
         for concept_path in load_paths(data_path):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
-            k = k + 1 
+            lbl = os.path.basename(concept_path).split('_')[1]
+            print(concept_path)
             for n, shot in enumerate(shots):
                 if n  < 5:
                     image, _, label = shot
-                    self.x[n] = torch.from_numpy(image).permute(2, 0, 1).float()
-                    self.y[n] = k # list(label.keys())[0]
-                    """
-                    print(image.shape)
-                    print(image)
-                    print("Displaying image ...")
-                    pil_image = Image.fromarray((image * 255).astype(np.uint8))
-                    pil_image.show()
-                    """
+                    self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
+                    self.y[k] = int(lbl) # list(label.keys())[0]
+                    k = k + 1
+                    # print(image.shape)
+                    # print(image)
+        print(self.x.shape)
+        print(self.y)
 
     def __len__(self):
         return len(self.x)

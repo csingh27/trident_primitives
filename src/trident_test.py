@@ -130,5 +130,5 @@ for model_name in os.listdir(args.model_path):
 
                 dl = {"label_latents": [mu_l, log_var_l],
                     "style_latents": [mu_s, log_var_s]}
-                profiler.log_data(dl, i, 'latents', 'test')  
+                profiler.log_data(dl, i, 'latents', 'test')
 
