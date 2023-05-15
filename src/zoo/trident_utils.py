@@ -69,6 +69,8 @@ def setup(dataset, root, n_ways, k_shots, q_shots, order, inner_lr, device, down
 
 
 def accuracy(predictions, targets):
+    print("Predictions: ", predictions)
+    print("Targets: ", targets)
     predictions = predictions.argmax(dim=1).view(targets.shape)
     return (predictions == targets).sum().float() / targets.size(0)
 

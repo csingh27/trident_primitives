@@ -81,7 +81,8 @@ def index_classes(items):
 class Primitives(Dataset):
     """
     Consists of 250 examples of 640x480 pixels.
-    The dataset is divided in 2 splits of 150 training and 100 test examples.
+    The dataset is divided in 3 splits of 180 training, 60 test examples and 60 validation examples. 
+    Train-test-validation split: 180-60-60 (60%, 20%, 20%)
     There are 50 concepts or classes in total
     **Arguments**
     * **root** (str) - Path to download the data.
@@ -112,13 +113,13 @@ class Primitives(Dataset):
 
         if self.mode == "train":
             data_path = self.train_path
-            N = 150
+            N = 180
         elif self.mode == "test":
             data_path = self.test_path
-            N = 50
+            N = 60
         elif self.mode == "validation":
             data_path = self.valid_path
-            N = 50
+            N = 60
 
         H = 84 # 480 
         W = 84 # 640 
@@ -142,16 +143,16 @@ class Primitives(Dataset):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
             lbl = os.path.basename(concept_path).split('_')[1]
             for n, shot in enumerate(shots):
-                if n  < 5:
-                    image, _, label = shot
-                    self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
-                    self.y[k] = int(lbl) # list(label.keys())[0]
-                    # pil_image = Image.fromarray((image * 255).astype(np.uint8))
-                    # cv2.imshow("Image", image)
-                    print(self.x[k].shape)
-                    print("Label", self.y[k])
-                    cv2.waitKey(0)
-                    k = k + 1
+                # if n  < 5:
+                image, _, label = shot
+                self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
+                self.y[k] = int(lbl) # list(label.keys())[0]
+                # pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                # cv2.imshow("Image", image)
+                print(self.x[k].shape)
+                print("Label", self.y[k])
+                cv2.waitKey(0)
+                k = k + 1
 
         print(self.x.shape)
         print(self.y)

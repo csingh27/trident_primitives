@@ -3,7 +3,7 @@
 "root": "./dataset/primitives",
 "model_path": "./models/primitives-5,5",
 "n_ways": 5,
-"k_shots": 4,
+"k_shots": 5,
 "q_shots": 1,
 "inner_adapt_steps_test": 5,
 "inner_lr": 0.0014,
