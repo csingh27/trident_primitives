@@ -1,7 +1,7 @@
 {
 "dataset": "primitives",
 "root": "./dataset/primitives",
-"n_ways": 20,
+"n_ways": 5,
 "k_shots": 4,
 "q_shots":1,
 "inner_adapt_steps_train": 5,
@@ -9,7 +9,7 @@
 "inner_lr": 0.0014,
 "meta_lr": 0.00014,
 "meta_batch_size": 1,
-"iterations": 8000,
+"iterations": 150,
 "reconstr": "std",
 "wt_ce": 100,
 "klwt": "False",

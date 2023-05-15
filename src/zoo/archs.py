@@ -452,8 +452,10 @@ class CEncoder(nn.Module):
             nn.MaxPool2d(2),  # 1x1 # 5 x 5
             nn.Flatten()
         )
+        print("Self.net after")
 
     def forward(self, x):
+        print("Self.net before")
         x = self.net(x)
 
         return x

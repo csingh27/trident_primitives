@@ -1,7 +1,7 @@
 {
 "dataset": "miniimagenet",
 "root": "./dataset/mini_imagenet",
-"model_path": "./models-mini-5,1",
+"model_path": "./models/mini-5,1",
 "n_ways": 5,
 "k_shots": 1,
 "q_shots": 10,

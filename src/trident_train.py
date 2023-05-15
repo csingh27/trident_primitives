@@ -79,7 +79,6 @@ elif args.task_adapt == 'False':
 # Generating Tasks, initializing learners, loss, meta - optimizer and profilers
 train_tasks, valid_tasks, _, learner = setup(
     args.dataset, args.root, args.n_ways, args.k_shots, args.q_shots, args.order, args.inner_lr, args.device, download=args.download, task_adapt=args.task_adapt, args=args)
-print("Phase 9")
 opt = optim.Adam(learner.parameters(), args.meta_lr)
 reconst_loss = nn.MSELoss(reduction='none')
 start = 0
@@ -98,7 +97,6 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
     batch_losses = []
 
     for batch in range(args.meta_batch_size):
-        print("Length of samples", len(train_tasks.sample()))
         ttask = train_tasks.sample()
         model = learner.clone(first_order=True)
 
@@ -110,6 +108,9 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
         # Logging per train-task losses and accuracies
         tmp = [(iter*args.meta_batch_size)+batch, evaluation_accuracy.item()]
         tmp = tmp + [a.item() for a in evaluation_loss.values()]
+        print("Evaluation loss", evaluation_loss)
+        print("Evaluation accuracy", evaluation_accuracy)
+        print("Evaluation tmp", tmp)
         batch_losses.append(tmp)
 
     vtask = valid_tasks.sample()
@@ -130,6 +131,10 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
         if p.requires_grad == True:
             p.grad.data.mul_(1.0 / args.meta_batch_size)
     opt.step()
+
+    print("Validation loss", validation_loss)
+    print("Validation accuracy", validation_accuracy)
+    print("Valid loss", tmp)
 
     # Saving the Logs
     profiler.log_csv(batch_losses, 'train')

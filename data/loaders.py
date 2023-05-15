@@ -8,6 +8,7 @@ import zipfile
 import requests
 from data.primitives import *
 from PIL import Image
+import cv2
 from collections import defaultdict
 
 import numpy as np
@@ -107,13 +108,17 @@ class Primitives(Dataset):
         self.path = "dataset/PRIMITIVES"
         self.train_path = self.path + "/train"
         self.test_path = self.path + "/test"
+        self.valid_path = self.path + "/valid"
 
         if self.mode == "train":
             data_path = self.train_path
             N = 150
         elif self.mode == "test":
             data_path = self.test_path
-            N = 100
+            N = 50
+        elif self.mode == "validation":
+            data_path = self.valid_path
+            N = 50
 
         H = 84 # 480 
         W = 84 # 640 
@@ -133,19 +138,21 @@ class Primitives(Dataset):
         # Do not load the last shot in training
 
         k = 0
-        print(data_path)
         for concept_path in load_paths(data_path):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
             lbl = os.path.basename(concept_path).split('_')[1]
-            print(concept_path)
             for n, shot in enumerate(shots):
                 if n  < 5:
                     image, _, label = shot
                     self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
                     self.y[k] = int(lbl) # list(label.keys())[0]
+                    # pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                    # cv2.imshow("Image", image)
+                    print(self.x[k].shape)
+                    print("Label", self.y[k])
+                    cv2.waitKey(0)
                     k = k + 1
-                    # print(image.shape)
-                    # print(image)
+
         print(self.x.shape)
         print(self.y)
 
@@ -228,7 +235,7 @@ class MiniImageNet(Dataset):
         # data["image_data"] = (N, H, W, C)
         # X = (N, C, H, W)
 
-        print(self.x.shape)
+        print(self.x.shape[0])
 
         self.y = np.ones(len(self.x))
 
@@ -236,6 +243,18 @@ class MiniImageNet(Dataset):
         for class_name, idxs in self.data['class_dict'].items():
             for idx in idxs:
                 self.y[idx] = self.class_idx[class_name]
+        # print(self.y)
+
+        # = cv2.cvtColor(images, cv2.COLOR_RGB2BGR)
+
+        for i in range(self.x.shape[0]):
+            image = np.array(self.x[i])
+            # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            image = np.transpose(image, (1, 2, 0)).reshape(84, 84, 3)
+            # cv2.imshow("x", image)
+            print(self.x[i].shape)
+            print(self.y[i])
+            cv2.waitKey(0)
 
     def __getitem__(self, idx):
         data = self.x[idx]

@@ -90,17 +90,16 @@ elif args.order == True:
 
 
 ## Testing ##
-
 for model_name in os.listdir(args.model_path):
     #learner = torch.load('{}/{}'.format(args.model_path, model_name))
     print("Model: ", args.model_path, model_name)
     learner.load_state_dict(torch.load('{}/{}'.format(args.model_path, model_name), map_location=args.device))
-    learner = learner.to(args.device)
+    learner = learner # .to(args.device)
     print('Testing on held out classes')
     for t in range(args.times):
         for i, tetask in enumerate(test_tasks):
             
-            model = learner.clone()
+            model = learner.clone(first_order=True)
             if args.extra == 'Yes':
                 evaluation_loss, evaluation_accuracy, reconst_img, query_imgs, mu_l, log_var_l, mu_s, log_var_s, logits, labels, mu_l_0, log_var_l_0, mu_s_0, log_var_s_0 = inner_adapt_trident(
                     tetask, reconst_loss, model, args.n_ways, args.k_shots, args.q_shots, args.inner_adapt_steps_test, args.device, True, args, "Yes")
