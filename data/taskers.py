@@ -116,4 +116,20 @@ def gen_tasks(dataname, root, image_transforms=None, target_transforms=None, dow
 
         tasks = l2l.data.TaskDataset(dataset, task_transforms=trans, num_tasks=num_tasks)
 
+    else:
+        cfs = Primitives(root, mode, transform=image_transforms,
+                         target_transform=target_transforms, download=download)
+        dataset = l2l.data.MetaDataset(cfs)
+
+        trans = [
+            l2l.data.transforms.FusedNWaysKShots(dataset,
+                                                 n=n_ways,
+                                                 k=k_shots + q_shots),
+            l2l.data.transforms.LoadData(dataset),
+            l2l.data.transforms.RemapLabels(dataset),
+            l2l.data.transforms.ConsecutiveLabels(dataset)
+        ]
+
+        tasks = l2l.data.TaskDataset(dataset, task_transforms=trans, num_tasks=num_tasks)
+
     return tasks

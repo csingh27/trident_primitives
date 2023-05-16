@@ -60,12 +60,25 @@ def setup(dataset, root, n_ways, k_shots, q_shots, order, inner_lr, device, down
                         n_ways=n_ways, task_adapt=task_adapt, args=args, latent_dim_l=args.zl, latent_dim_s=args.zs)
         args.dataset = 'cub'
 
+    else: # without validation
+        # Generating tasks and model according to the MAML implementation for MiniImageNet
+        train_tasks = gen_tasks(dataset, root, download=download, mode='train',
+                n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
+
+        test_tasks = gen_tasks(dataset, root, download=download, mode='test',
+                               n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
+        learner = CCVAE(in_channels=3, base_channels=32,
+                        n_ways=n_ways, task_adapt=task_adapt, args=args, latent_dim_l=args.zl, latent_dim_s=args.zs)
+
     learner = learner.to(device)
     # allow_nograd=True if args.pretrained[2]=='freeze' else False
     learner = l2l.algorithms.MAML(
         learner, first_order=order, lr=inner_lr, allow_nograd=False)
 
-    return train_tasks, valid_tasks, test_tasks, learner
+    if (dataset == 'primitives_wo_val'):
+        return train_tasks, test_tasks, learner
+    else:
+        return train_tasks, valid_tasks, test_tasks, learner
 
 
 def accuracy(predictions, targets):
