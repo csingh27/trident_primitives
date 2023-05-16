@@ -86,7 +86,7 @@ if args.task_adapt == 'True':
     args.task_adapt = True
 elif args.task_adapt == 'False':
     args.task_adapt = False
-
+args.device = 'cpu'
 
 # Generating Tasks, initializing learners, loss, meta - optimizer and profilers
 train_tasks, valid_tasks, _, learner = setup(
@@ -116,7 +116,7 @@ def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
 
     # Separate data into adaptation/evalutation sets
     adaptation_indices = th.zeros(data.size(0)).byte()
-    adaptation_indices[th.arange(shots*ways) * 2] = 1
+    adaptation_indices[th.arange(shots*ways)] = 1
     adaptation_data, adaptation_labels = data[adaptation_indices], labels[adaptation_indices]
     evaluation_data, evaluation_labels = data[1 - adaptation_indices], labels[1 - adaptation_indices]
 
@@ -142,7 +142,7 @@ def main(
         meta_batch_size=32,
         adaptation_steps=1,
         num_iterations=60000,
-        cuda=True,
+        cuda=False,
         seed=42,
 ):
     random.seed(seed)
