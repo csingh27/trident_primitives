@@ -1,8 +1,8 @@
 # Local data
 dataset/
-data/__pychache__
+data/__pycache__
 models/
-src/__pychache__
+src/__pycache__
 logs/
 configs_og
 configs/ablation

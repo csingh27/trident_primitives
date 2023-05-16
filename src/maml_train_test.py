@@ -29,9 +29,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--cnfg', type=str)
 parser.add_argument('--dataset', type=str)
 parser.add_argument('--root', type=str)
-parser.add_argument('--n-ways', type=int)
-parser.add_argument('--k-shots', type=int)
-parser.add_argument('--q-shots', type=int)
+parser.add_argument('--n_ways', type=int)
+parser.add_argument('--k_shots', type=int)
+parser.add_argument('--q_shots', type=int)
 parser.add_argument('--inner-adapt-steps-train', type=int)
 parser.add_argument('--inner-adapt-steps-test', type=int)
 parser.add_argument('--inner-lr', type=float)
@@ -89,7 +89,7 @@ elif args.task_adapt == 'False':
 args.device = 'cpu'
 
 # Generating Tasks, initializing learners, loss, meta - optimizer and profilers
-train_tasks, valid_tasks, _, learner = setup(
+train_tasks, valid_tasks, test_tasks, learner = setup(
     args.dataset, args.root, args.n_ways, args.k_shots, args.q_shots, args.order, args.inner_lr, args.device, download=args.download, task_adapt=args.task_adapt, args=args)
 print("Phase 9")
 opt = optim.Adam(learner.parameters(), args.meta_lr)
@@ -97,11 +97,11 @@ reconst_loss = nn.MSELoss(reduction='none')
 start = 0
 
 if args.order == False:
-    profiler = Profiler('TRIDENT_{}_{}-way_{}-shot_{}-queries'.format(args.dataset,
+    profiler = Profiler('MAML_{}_{}-way_{}-shot_{}-queries'.format(args.dataset,
                         args.n_ways, args.k_shots, args.q_shots), args.experiment, args)
 
 elif args.order == True:
-    profiler = Profiler('FO-TRIDENT_{}_{}-way_{}-shot_{}-queries'.format(
+    profiler = Profiler('FO-MAML_{}_{}-way_{}-shot_{}-queries'.format(
         args.dataset, args.n_ways, args.k_shots, args.q_shots), args.experiment, args)
 
 
@@ -113,10 +113,11 @@ def accuracy(predictions, targets):
 def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
     data, labels = batch
     data, labels = data.to(device), labels.to(device)
-
+    print(np.shape(data))
     # Separate data into adaptation/evalutation sets
     adaptation_indices = th.zeros(data.size(0)).byte()
-    adaptation_indices[th.arange(shots)] = 1
+    # select the elements based on number of shots and ways, then seperate the training and validation here
+    adaptation_indices[th.arange(shots*ways)] = 1  # original th.arange(shots*ways)*2
     adaptation_data, adaptation_labels = data[adaptation_indices], labels[adaptation_indices]
     evaluation_data, evaluation_labels = data[1 - adaptation_indices], labels[1 - adaptation_indices]
 
@@ -135,13 +136,13 @@ def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
 
 
 def main(
-        ways=20,
-        shots=5,
+        ways=args.n_ways,
+        shots=args.k_shots,
         meta_lr=0.003,
         fast_lr=0.5,
-        meta_batch_size=32,
+        meta_batch_size=args.meta_batch_size,
         adaptation_steps=1,
-        num_iterations=60000,
+        num_iterations=args.iterations,
         cuda=False,
         seed=42,
 ):
