@@ -96,19 +96,19 @@ opt = optim.Adam(learner.parameters(), args.meta_lr)
 reconst_loss = nn.MSELoss(reduction='none')
 start = 0
 
+experiment_name = 'MAML_{}_{}-way_{}-shot_{}-queries_iter_{}_batch_{}'.format(args.dataset,args.n_ways, args.k_shots,
+                                                                              args.q_shots, args.iterations,args.meta_batch_size)
 if args.order == False:
-    profiler = Profiler('MAML_{}_{}-way_{}-shot_{}-queries'.format(args.dataset,
-                        args.n_ways, args.k_shots, args.q_shots), args.experiment, args)
+    profiler = Profiler(experiment_name, args.experiment, args)
 
 elif args.order == True:
-    profiler = Profiler('FO-MAML_{}_{}-way_{}-shot_{}-queries'.format(
-        args.dataset, args.n_ways, args.k_shots, args.q_shots), args.experiment, args)
+    profiler = Profiler('FO-{}'.format(experiment_name), args.experiment, args)
 
 save_dir = os.path.join(os.getcwd(), 'MAML_results')
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
-experiment_name = 'MAML_{}_{}-way_{}-shot_{}-queries_iter_{}'.format(args.dataset,args.n_ways, args.k_shots, args.q_shots, args.iterations)
+
 res_dir = os.path.join(save_dir, experiment_name)
 if not os.path.exists(res_dir):
     os.makedirs(res_dir)
