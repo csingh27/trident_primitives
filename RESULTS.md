@@ -25,6 +25,7 @@ batch size = 1
 
 Training step in CSV = each batch
 
+PRIMITIVES
 Case 1 - 
 n_ways: 5
 k_shots: 5

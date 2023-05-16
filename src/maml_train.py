@@ -116,7 +116,7 @@ def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
 
     # Separate data into adaptation/evalutation sets
     adaptation_indices = th.zeros(data.size(0)).byte()
-    adaptation_indices[th.arange(shots*ways)] = 1
+    adaptation_indices[th.arange(shots)] = 1
     adaptation_data, adaptation_labels = data[adaptation_indices], labels[adaptation_indices]
     evaluation_data, evaluation_labels = data[1 - adaptation_indices], labels[1 - adaptation_indices]
 
@@ -135,7 +135,7 @@ def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
 
 
 def main(
-        ways=5,
+        ways=20,
         shots=5,
         meta_lr=0.003,
         fast_lr=0.5,
