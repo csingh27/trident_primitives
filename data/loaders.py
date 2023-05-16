@@ -118,11 +118,11 @@ class Primitives(Dataset):
         elif self.mode == "validation":
             print("Preparing validation dataset ...")
             data_path = self.valid_path
-            N = 120
+            N = 60
         elif self.mode == "test":
             print("Preparing test dataset ...")
             data_path = self.test_path
-            N = 60
+            N = 120
 
         H = 84 # 480 
         W = 84 # 640 
@@ -146,18 +146,18 @@ class Primitives(Dataset):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
             lbl = os.path.basename(concept_path).split('_')[1]
             for n, shot in enumerate(shots):
-                if k  < 49:
-                    print(int(lbl))
-                    image, _, label = shot
-                    self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
-                    self.y[k] = int(lbl) # list(label.keys())[0]
-                    # pil_image = Image.fromarray((image * 255).astype(np.uint8))
-                    # cv2.imshow("Image", image)
-                    cv2.waitKey(0)
-                    k = k + 1
+                # if k  < 49:
+                # print(int(lbl))
+                image, _, label = shot
+                self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
+                self.y[k] = int(lbl) # list(label.keys())[0]
+                # pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                # cv2.imshow("Image", image)
+                cv2.waitKey(0)
+                k = k + 1
 
-        # print(self.x.shape)
-        # print(self.y)
+        print(self.x.shape)
+        print(self.y)
 
     def __len__(self):
         return len(self.x)

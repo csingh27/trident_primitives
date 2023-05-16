@@ -96,8 +96,28 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
     opt.zero_grad()
     batch_losses = []
 
+    description = None
+
     for batch in range(args.meta_batch_size):
         print("Training ...", "iter:", iter)
+        print("num_tasks",train_tasks.num_tasks)
+        print("dataset",train_tasks.dataset)
+        print("len of dataset",len(train_tasks.dataset))
+        print("item of dataset",train_tasks.__getitem__)
+        print(len(train_tasks.task_transforms))
+        print("Sample task description of dataset")
+        # print(train_tasks.sample_task_description())
+        print("task_transforms",callable(train_tasks.task_transforms))
+        print("task transform description")
+        for transform in train_tasks.task_transforms:
+            print("*") # 4 of these
+            description = transform(description) # 9 elements of description
+            print("> : ", description)
+        print("next")
+        print("sampled descriptions",train_tasks.task_transforms)
+        print("task_collate",train_tasks.task_collate)
+        print("task id",train_tasks._task_id)
+        
         ttask = train_tasks.sample()
         model = learner.clone(first_order=True)
 

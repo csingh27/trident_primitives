@@ -1,5 +1,7 @@
 # Local data
 dataset/
+data/__pychache__
+src/__pychache__
 logs/
 configs_og
 configs/ablation
