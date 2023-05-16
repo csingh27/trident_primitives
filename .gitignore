@@ -1,6 +1,7 @@
 # Local data
 dataset/
 data/__pychache__
+models/
 src/__pychache__
 logs/
 configs_og

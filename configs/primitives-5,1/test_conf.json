@@ -1,7 +1,7 @@
 {
 "dataset": "primitives",
 "root": "./dataset/primitives",
-"model_path": "./models/primitives-5,5",
+"model_path": "./models/primitives-5,1",
 "n_ways": 5,
 "k_shots": 1,
 "q_shots": 1,

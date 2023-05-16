@@ -35,16 +35,16 @@ Case 2 -
 n_ways: 5
 k_shots: 1
 q_shots: 1
-Accuracy:  (Average over 150)
+Accuracy: 0.22800000429153 (Average over 150)
 
 Case 3- 
-n_ways: 20
+n_ways: 10
 k_shots: 5
 q_shots: 1
-Accuracy: (Average over 150)
+Accuracy: 0.099056605530797 (Average over 150)
 
 Case 4- 
-n_ways: 20
+n_ways: 10
 k_shots: 1
 q_shots: 1
-Accuracy: (Average over 150)
+Accuracy: 0.10000000198682 (Average over 150)
