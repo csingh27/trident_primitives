@@ -8,7 +8,7 @@
 "inner_adapt_steps_test": 5,
 "inner_lr": 0.0014,
 "meta_lr": 0.00014,
-"meta_batch_size": 5,
+"meta_batch_size": 1,
 "iterations": 150,
 "reconstr": "std",
 "wt_ce": 100,
