@@ -75,7 +75,7 @@ def setup(dataset, root, n_ways, k_shots, q_shots, order, inner_lr, device, down
     learner = l2l.algorithms.MAML(
         learner, first_order=order, lr=inner_lr, allow_nograd=False)
 
-    if (dataset == 'primitives_wo_val'):
+    if ('wo_val' in dataset): # without validation
         return train_tasks, test_tasks, learner
     else:
         return train_tasks, valid_tasks, test_tasks, learner
