@@ -38,7 +38,7 @@ def setup(dataset, root, n_ways, k_shots, q_shots, order, inner_lr, device, down
     elif (dataset == 'primitives'):
         # Generating tasks and model according to the MAML implementation for MiniImageNet
         train_tasks = gen_tasks(dataset, root, download=download, mode='train',
-                                n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
+                n_ways=n_ways, k_shots=k_shots, q_shots=q_shots)
         valid_tasks = gen_tasks(dataset, root, download=download, mode='validation',
                                n_ways=n_ways, k_shots=k_shots, q_shots=q_shots) 
         test_tasks = gen_tasks(dataset, root, download=download, mode='test',
@@ -107,11 +107,13 @@ def loss(reconst_loss: object, reconst_image, image, logits, labels, mu_s, log_v
 
 def inner_adapt_trident(task, reconst_loss, learner, n_ways, k_shots, q_shots, adapt_steps, device, log_data: bool, args, extra):
     data, labels = task
+    print("len tasks", len(task))
     if args.dataset == 'miniimagenet':
         data, labels = data.to(device) / 255.0, labels.to(device)
     else:
         data, labels = data.to(device), labels.to(device)
     total = n_ways * (k_shots + q_shots)
+    print("total", total)
     queries_index = np.zeros(total)
 
     # Extracting the evaluation datums from the entire task set, for the meta gradient calculation

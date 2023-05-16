@@ -81,8 +81,8 @@ def index_classes(items):
 class Primitives(Dataset):
     """
     Consists of 250 examples of 640x480 pixels.
-    The dataset is divided in 3 splits of 180 training, 60 test examples and 60 validation examples. 
-    Train-test-validation split: 180-60-60 (60%, 20%, 20%)
+    The dataset is divided in 3 splits of 120 training, 60 test examples and 120 validation examples. 
+    Train-test-validation split: 120-60-120 (40%, 20%, 40%)
     There are 50 concepts or classes in total
     **Arguments**
     * **root** (str) - Path to download the data.
@@ -109,16 +109,19 @@ class Primitives(Dataset):
         self.path = "dataset/PRIMITIVES"
         self.train_path = self.path + "/train"
         self.test_path = self.path + "/test"
-        self.valid_path = self.path + "/valid"
+        self.valid_path = self.path + "/validation"
 
         if self.mode == "train":
+            print("Preparing train dataset ...")
             data_path = self.train_path
-            N = 180
-        elif self.mode == "test":
-            data_path = self.test_path
-            N = 60
+            N = 120
         elif self.mode == "validation":
+            print("Preparing validation dataset ...")
             data_path = self.valid_path
+            N = 120
+        elif self.mode == "test":
+            print("Preparing test dataset ...")
+            data_path = self.test_path
             N = 60
 
         H = 84 # 480 
@@ -134,28 +137,27 @@ class Primitives(Dataset):
         shape = (H, W)
         # shape = (480, 640)
 
-        concepts = []
+        print(image_data.shape)
 
-        # Do not load the last shot in training
+        concepts = []
 
         k = 0
         for concept_path in load_paths(data_path):
             shots = [load_shot(path, shape) for path in load_paths(concept_path)]
             lbl = os.path.basename(concept_path).split('_')[1]
             for n, shot in enumerate(shots):
-                # if n  < 5:
-                image, _, label = shot
-                self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
-                self.y[k] = int(lbl) # list(label.keys())[0]
-                # pil_image = Image.fromarray((image * 255).astype(np.uint8))
-                # cv2.imshow("Image", image)
-                print(self.x[k].shape)
-                print("Label", self.y[k])
-                cv2.waitKey(0)
-                k = k + 1
+                if k  < 49:
+                    print(int(lbl))
+                    image, _, label = shot
+                    self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
+                    self.y[k] = int(lbl) # list(label.keys())[0]
+                    # pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                    # cv2.imshow("Image", image)
+                    cv2.waitKey(0)
+                    k = k + 1
 
-        print(self.x.shape)
-        print(self.y)
+        # print(self.x.shape)
+        # print(self.y)
 
     def __len__(self):
         return len(self.x)

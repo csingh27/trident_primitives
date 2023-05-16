@@ -97,6 +97,7 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
     batch_losses = []
 
     for batch in range(args.meta_batch_size):
+        print("Training ...", "iter:", iter)
         ttask = train_tasks.sample()
         model = learner.clone(first_order=True)
 
@@ -113,6 +114,9 @@ for iter in tqdm.tqdm(range(start, args.iterations)):
         print("Evaluation tmp", tmp)
         batch_losses.append(tmp)
 
+
+    print("Validating ...")
+    
     vtask = valid_tasks.sample()
     model = learner.clone(first_order=True)
 

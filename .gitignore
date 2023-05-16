@@ -1,4 +1,5 @@
 # Local data
+dataset/
 logs/
 configs_og
 configs/ablation
