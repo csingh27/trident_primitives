@@ -1,5 +1,6 @@
 # Local data
 dataset/
+dataset_wo_val/
 data/__pycache__/
 models/
 src/__pycache__/
