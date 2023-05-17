@@ -91,7 +91,6 @@ args.device = 'cpu'
 # Generating Tasks, initializing learners, loss, meta - optimizer and profilers
 train_tasks, test_tasks, learner = setup(
     args.dataset, args.root, args.n_ways, args.k_shots, args.q_shots, args.order, args.inner_lr, args.device, download=args.download, task_adapt=args.task_adapt, args=args)
-print("Phase 9")
 opt = optim.Adam(learner.parameters(), args.meta_lr)
 reconst_loss = nn.MSELoss(reduction='none')
 start = 0

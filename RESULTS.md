@@ -49,3 +49,56 @@ n_ways: 10
 k_shots: 1
 q_shots: 1
 Accuracy: 0.10000000198682 (Average over 150)
+
+WOOD PRIMITIVES
+Case 1 - 
+n_ways: 5
+k_shots: 5
+q_shots: 1
+Accuracy: 0.40266667634249 (Average over 150)
+
+Case 2 - 
+n_ways: 5
+k_shots: 1
+q_shots: 1
+Accuracy: 0.23311258724194 (Average over 150)
+
+Case 3- 
+n_ways: 10
+k_shots: 5
+q_shots: 1
+Accuracy: 0.092783506921272 (Average over 150)
+
+Case 4- 
+n_ways: 10
+k_shots: 1
+q_shots: 1
+Accuracy: 0.100000001490116 (All losses are NaNs!)  (Average over 150)
+
+DARK PRIMITIVES
+Case 1 - 
+n_ways: 5
+k_shots: 5
+q_shots: 1
+Accuracy: 0.56133334706227 (Average over 150)
+
+Case 2 - 
+n_ways: 5
+k_shots: 1
+q_shots: 1
+Accuracy: 0.22266667038202 (Average over 150)
+
+Case 3- 
+n_ways: 10
+k_shots: 5
+q_shots: 1
+Accuracy: 0.096000001728535 (Average over 150)
+
+Case 4- 
+n_ways: 10
+k_shots: 1
+q_shots: 1
+Accuracy: 0.11066666881243 (Average over 150)
+
+
+

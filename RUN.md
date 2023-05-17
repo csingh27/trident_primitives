@@ -2,17 +2,8 @@ Train:
 # Primitives dataset (Replace primitives with wood-primitives and dark-primitives)
 TRIDENT - 
 
-10 Way, 5 Shots
-python -m src.trident_train --cnfg configs/primitives-10,5/train_conf.json --dataset primitives
-
-10 Way, 1 Shot
-python -m src.trident_train --cnfg configs/primitives-10,1/train_conf.json --dataset primitives
-
-5 Way, 5 Shots
-python -m src.trident_train --cnfg configs/primitives-5,5/train_conf.json --dataset primitives
-
-5 Way, 1 Shot
-python -m src.trident_train --cnfg configs/primitives-5,1/train_conf.json --dataset primitives
+N Way, K Shots
+python -m src.trident_train --cnfg configs/primitives-N,K/train_conf.json --dataset primitives
 
 MAML - 
 python -m src.maml_train --cnfg configs/primitives-5,5/train_conf.json --dataset primitives
