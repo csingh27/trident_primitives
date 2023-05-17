@@ -1,20 +1,15 @@
 {
 "dataset": "primitives_wo_val",
 "root": "./dataset_wo_val/primitives_wo_val",
-"n_ways": 20,
-"k_shots": 5,
+"n_ways": 10,
+"k_shots": 1,
 "q_shots":1,
 "inner_adapt_steps_train": 5,
 "inner_adapt_steps_test": 5,
 "inner_lr": 0.0014,
 "meta_lr": 0.00014,
-<<<<<<< HEAD
-"meta_batch_size": 1,
-"iterations": 150,
-=======
 "meta_batch_size": 15,
 "iterations": 80,
->>>>>>> aaf080c0271ae4b8bbbd658d6eefcf0b9c1ca4c7
 "reconstr": "std",
 "wt_ce": 100,
 "klwt": "False",
