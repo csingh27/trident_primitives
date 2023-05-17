@@ -1,12 +1,11 @@
 {
-"dataset": "miniimagenet",
-"root": "./dataset/mini_imagenet",
-"model_path": "./models/mini-5,5",
+"dataset": "primitives",
+"root": "./dataset/primitives",
+"model_path": "./models/dark-primitives-5,5",
 "n_ways": 5,
 "k_shots": 5,
 "q_shots": 1,
-"inner_adapt_steps_val": 5,
-"batch_size": 500,
+"inner_adapt_steps_test": 5,
 "inner_lr": 0.0014,
 "meta_lr": 0.00014,
 "reconstr": "std",
@@ -20,5 +19,7 @@
 "task_adapt": "True",
 "experiment": "exp1",
 "order": "False",
-"device": "cuda"
+"device": "cuda",
+"times": 1,
+"extra": "Yes"
 }

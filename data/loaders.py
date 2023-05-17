@@ -106,7 +106,9 @@ class Primitives(Dataset):
         self.mode = mode
 
         # Define dataset paths
-        self.path = "dataset/PRIMITIVES"
+        # self.path = "dataset/PRIMITIVES" # WOOD-PRIMITIVES, # DARK-PRIMITIVES
+        # self.path = "dataset/DARK_PRIMITIVES" # WOOD-PRIMITIVES, # DARK-PRIMITIVES
+        self.path = "dataset/WOOD_PRIMITIVES" # WOOD-PRIMITIVES, # DARK-PRIMITIVES
         self.train_path = self.path + "/train"
         self.test_path = self.path + "/test"
         self.valid_path = self.path + "/validation"
