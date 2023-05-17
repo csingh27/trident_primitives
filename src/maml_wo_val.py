@@ -103,7 +103,7 @@ if args.order == False:
 elif args.order == True:
     profiler = Profiler('FO-{}'.format(experiment_name), args.experiment, args)
 
-save_dir = os.path.join(os.getcwd(), 'MAML_results/6040')
+save_dir = os.path.join(os.getcwd(), 'MAML_results/5050')
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
@@ -124,9 +124,9 @@ def fast_adapt(batch, learner, loss, adaptation_steps, shots, ways, device):
     print(np.shape(data))
     # Separate data into adaptation/evalutation sets
     adaptation_indices = th.zeros(data.size(0)).byte()
-    # original: select the elements based on number of shots and ways, then seperate the training and validation here
-    # now just separate in 80% train - 20 % val or 60% - 40%
-    train_indices = random.sample(range(data.size(0)), int(data.size(0)*0.6))
+    # original: select the elements based on number of shots and ways, then seperate the adaptation and evalutation here
+    # now just separate in 80% adaption - 20 % evaluation or 60% - 40% or 50%-50%
+    train_indices = random.sample(range(data.size(0)), int(data.size(0)*0.5))
     adaptation_indices[train_indices] = 1
     #adaptation_indices[th.arange(int(data.size(0)*0.8))] = 1
     #adaptation_indices[np.arange(shots*ways) * 2] = True
