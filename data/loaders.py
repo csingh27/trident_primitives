@@ -168,6 +168,98 @@ class Primitives(Dataset):
             data = self.transform(data)
         return data, self.y[idx]
 
+
+class Primitives_wo_val(Dataset):
+    """
+    Consists of 250 examples of 640x480 pixels.
+    The dataset is divided in 3 splits of 120 training, 60 test examples and 120 validation examples.
+    Train-test-validation split: 120-60-120 (40%, 20%, 40%)
+    There are 50 concepts or classes in total
+    **Arguments**
+    * **root** (str) - Path to download the data.
+    * **mode** (str, *optional*, default='train') - Which split to use.
+        Must be 'train', 'validation', or 'test'.
+    * **transform** (Transform, *optional*, default=None) - Input pre-processing.
+    * **target_transform** (Transform, *optional*, default=None) - Target pre-processing.
+    """
+
+    def __init__(self,
+                 root,
+                 mode,
+                 transform=None,
+                 target_transform=None,
+                 download=False):
+        super(Primitives, self).__init__()
+
+        # Initialization
+        self.root = os.path.expanduser(root)
+        self.transform = transform
+        self.target_transform = target_transform
+        self.mode = mode
+
+        # Define dataset paths
+        self.path = "dataset/PRIMITIVES_WO_VAL"
+        self.train_path = self.path + "/train"
+        self.test_path = self.path + "/test"
+  #      self.valid_path = self.path + "/validation"
+
+        if self.mode == "train":
+            print("Preparing train dataset ...")
+            data_path = self.train_path
+            N = 180
+        # elif self.mode == "validation":
+        #     print("Preparing validation dataset ...")
+        #     data_path = self.valid_path
+        #     N = 60
+        elif self.mode == "test":
+            print("Preparing test dataset ...")
+            data_path = self.test_path
+            N = 120
+
+        H = 84  # 480
+        W = 84  # 640
+        C = 3
+
+        image_data = np.zeros((N, C, H, W))
+
+        self.x = torch.from_numpy(image_data).permute(0, 1, 2, 3).float()
+        self.y = np.ones(len(self.x))
+        # X = (N, H, W, C)
+
+        shape = (H, W)
+        # shape = (480, 640)
+
+        print(image_data.shape)
+
+        concepts = []
+
+        k = 0
+        for concept_path in load_paths(data_path):
+            shots = [load_shot(path, shape) for path in load_paths(concept_path)]
+            lbl = os.path.basename(concept_path).split('_')[1]
+            for n, shot in enumerate(shots):
+                # if k  < 49:
+                # print(int(lbl))
+                image, _, label = shot
+                self.x[k] = torch.from_numpy(image).permute(2, 0, 1).float()
+                self.y[k] = int(lbl)  # list(label.keys())[0]
+                # pil_image = Image.fromarray((image * 255).astype(np.uint8))
+                # cv2.imshow("Image", image)
+                cv2.waitKey(0)
+                k = k + 1
+
+        print(self.x.shape)
+        print(self.y)
+
+    def __len__(self):
+        return len(self.x)
+
+    def __getitem__(self, idx):
+        data = self.x[idx]
+        if self.transform:
+            data = self.transform(data)
+        return data, self.y[idx]
+
 class MiniImageNet(Dataset):
 
     """
