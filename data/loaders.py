@@ -189,7 +189,7 @@ class Primitives_wo_val(Dataset):
                  transform=None,
                  target_transform=None,
                  download=False):
-        super(Primitives, self).__init__()
+        super(Primitives_wo_val, self).__init__()
 
         # Initialization
         self.root = os.path.expanduser(root)
@@ -198,7 +198,7 @@ class Primitives_wo_val(Dataset):
         self.mode = mode
 
         # Define dataset paths
-        self.path = "dataset/PRIMITIVES_WO_VAL"
+        self.path = "dataset_wo_val/PRIMITIVES_WO_VAL"
         self.train_path = self.path + "/train"
         self.test_path = self.path + "/test"
   #      self.valid_path = self.path + "/validation"
