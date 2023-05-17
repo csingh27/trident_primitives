@@ -104,7 +104,7 @@ if args.order == False:
 elif args.order == True:
     profiler = Profiler('FO-{}'.format(experiment_name), args.experiment, args)
 
-save_dir = os.path.join(os.getcwd(), 'MAML_results')
+save_dir = os.path.join(os.getcwd(), 'MAML_results/6040')
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
