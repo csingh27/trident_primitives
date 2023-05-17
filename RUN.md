@@ -9,7 +9,7 @@ MAML -
 python -m src.maml_train --cnfg configs/primitives-5,5/train_conf.json --dataset primitives
 
 # Note: Change the path to the dataset when using WOOD-PRIMITIVES or DARK-PRIMITIVES 
-in the loaders file
+# in the loaders file
 
 # MiniImageNet dataset
 python -m src.trident_train --cnfg configs/mini-5,5/train_conf.json

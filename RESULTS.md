@@ -30,7 +30,7 @@ Case 1 -
 n_ways: 5
 k_shots: 5
 q_shots: 1
-Accuracy: 0.46357617019028 (Average over 150)
+Accuracy: 0.46357617019028, 0.53733334700267 (Average over 150)
 
 Case 2 - 
 n_ways: 5
@@ -49,6 +49,18 @@ n_ways: 10
 k_shots: 1
 q_shots: 1
 Accuracy: 0.10000000198682 (Average over 150)
+
+Case 5- 
+n_ways: 20
+k_shots: 5
+q_shots: 1
+Accuracy:  0.050000000745058 (All losses are NaNs!) (Average over 150)
+
+Case 6- 
+n_ways: 20
+k_shots: 1
+q_shots: 1
+Accuracy:  0.0500000007450581 (All losses are NaNs!) (Average over 150)
 
 WOOD PRIMITIVES
 Case 1 - 
